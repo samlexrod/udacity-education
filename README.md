@@ -37,10 +37,8 @@ To get started with this project, you need to have Python installed on your syst
 pip install -r requirements.txt
 ```
 
-Project Structure
+## Project Structure
 The project structure is as follows:
-
-> Note: At the moment this is just a draft of the structure of the project.
 
 ```bash
 bike-sharing-demand/
@@ -49,7 +47,7 @@ bike-sharing-demand/
 │   ├── test.csv
 │   └── sample_submission.csv
 ├── notebooks/
-│   ├── exploratory_data_analysis.ipynb
+│   ├── eda.ipynb
 │   ├── modeling.ipynb
 │   └── evaluation.ipynb
 ├── src/
@@ -62,7 +60,9 @@ bike-sharing-demand/
 └── LICENSE
 ```
 
-Usage
+Splitting modeling and evaluation notebooks, as well as separating code into a src directory, significantly enhances organization, clarity, and maintainability in a machine learning project. Separate notebooks allow clear focus on distinct phases, making debugging easier and improving collaboration, as team members can work on different tasks simultaneously. The src directory modularizes the code, facilitating independent modifications and reuse. This structure also improves reproducibility and documentation, as each component provides detailed, phase-specific insights. Overall, these practices lead to a more structured, efficient, and collaborative development process.
+
+## Usage
 To run the project, follow these steps:
 
 1. Clone the repository:
