@@ -11,7 +11,6 @@ The goal is to combine historical usage patterns with weather data in order to f
 
 - [Introduction](#introduction)
 - [Dataset](#dataset)
-- [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 - [Modeling](#modeling)
@@ -29,13 +28,6 @@ The dataset used in this project contains historical data on bike rentals from t
 
 The dataset can be downloaded from the Kaggle competition page [here](https://www.kaggle.com/competitions/bike-sharing-demand/data).
 
-## Installation
-
-To get started with this project, you need to have Python installed on your system. Additionally, you need to install the required libraries. You can do this by running:
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Project Structure
 The project structure is as follows:
@@ -73,13 +65,38 @@ To run the project, follow these steps:
     ```
 
 2. Create an environment. I recommend using [Miniconda](https://docs.anaconda.com/miniconda/) if working on your machine.
+    > Feel free to use a higher python version. Check versions [here](https://www.python.org/doc/versions/). I always use one minor version less to avoid bugs with newer versions.
 
-3. Install the required dependencies:
+    
+    ### Create the virtual environment:
     ```bash
-    pip install -r requirements.txt
+    conda create -n bikeshare python=3.11
     ```
+    > If for any reason you need to remove the virtual environment and recreate, use `conda ramove --name bikeshare --all`
 
-4. Run the notebooks in the notebooks/ directory to explore the data, build the model, and evaluate its performance.
+    ### Activate the virtual environment:
+    ```bash
+    conda activate bikeshare
+    ```
+    > Use `conda deactivate` to go back to base.
+
+    ### Install the requirement-prior-autogluon.txt
+    ```bash
+    pip install -r requirements-prior-autogluon.txt
+    ```
+    > Use `pip list --format=freeze > requirements.txt` to freeze a new requirment file.
+
+
+    ### If using conda, install `autogluon` with mamba:
+    >  WARNING! Install `mamba` on base environment.
+    ```bash
+    base> conda install -c conda-forge mamba
+    base> conda activate bikeshare
+    bikeshare> mamba install -c conda-forge autogluon
+    ```
+    > For more information about AutoGluon, visit ther website [here](https://auto.gluon.ai/0.8.1/install.html).
+
+5. Run the notebooks in the notebooks/ directory to explore the data, build the model, and evaluate its performance.
 
 ## Modeling
 The modeling process involves several steps:
