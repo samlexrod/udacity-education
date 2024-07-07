@@ -86,6 +86,11 @@ To run the project, follow these steps:
     ```
     > Use `pip list --format=freeze > requirements.txt` to freeze a new requirment file.
 
+    ### Install Ydata Profiling
+    ```bash
+    conda install -c conda-forge ydata-profiling
+    ```
+
 
     ### If using conda, install `autogluon` with mamba:
     >  WARNING! Install `mamba` on base environment.
