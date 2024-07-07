@@ -76,24 +76,6 @@ To run the project, follow these steps:
     
     > To clone an existing virtual environment to test new packages use `conda create  --name bikeshare-clone --clone bikeshare`
 
-    ### Activate the virtual environment:
-    ```bash
-    conda activate bikeshare
-    ```
-    > Use `conda deactivate` to go back to base.
-
-    ### Install the requirement-prior-autogluon.txt
-    ```bash
-    pip install -r requirements-prior-autogluon.txt
-    ```
-    > Use `pip list --format=freeze > requirements.txt` to freeze a new requirment file.
-
-    ### Install Ydata Profiling
-    ```bash
-    conda install -c conda-forge ydata-profiling
-    ```
-
-
     ### If using conda, install `autogluon` with mamba:
     >  WARNING! Install `mamba` on base environment.
     ```bash
@@ -102,6 +84,27 @@ To run the project, follow these steps:
     bikeshare> mamba install -c conda-forge autogluon
     ```
     > For more information about AutoGluon, visit ther website [here](https://auto.gluon.ai/0.8.1/install.html).
+
+    ### Activate the virtual environment:
+    ```bash
+    conda activate bikeshare
+    ```
+    > Use `conda deactivate` to go back to base.
+
+    ### Install kaggle api
+    ```base
+    pip install kaggle
+    ```
+    > Follow kaggle's instructions to download the data and submit.
+
+    ### Install Ydata Profiling
+    > WARNING! To avoid conflicts in your machine caused by the installation of ydata-profile, it is best to work in a cloned environment. `conda create --bikeshare-test --clone bikeshare`
+    ```bash
+    conda install -c conda-forge ydata-profiling
+    ```
+
+
+    
 
 5. Run the notebooks in the notebooks/ directory to explore the data, build the model, and evaluate its performance.
 
