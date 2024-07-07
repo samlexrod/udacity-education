@@ -74,7 +74,7 @@ To run the project, follow these steps:
     ```
     > If for any reason you need to remove the virtual environment and recreate, use `conda remove --name bikeshare --all`
     
-    > To clone an existing virtual environment to test new packages use `conda --name bikeshare-clone --clone bikeshare`
+    > To clone an existing virtual environment to test new packages use `conda create  --name bikeshare-clone --clone bikeshare`
 
     ### Activate the virtual environment:
     ```bash
