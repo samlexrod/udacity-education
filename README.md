@@ -72,7 +72,9 @@ To run the project, follow these steps:
     ```bash
     conda create -n bikeshare python=3.11
     ```
-    > If for any reason you need to remove the virtual environment and recreate, use `conda ramove --name bikeshare --all`
+    > If for any reason you need to remove the virtual environment and recreate, use `conda remove --name bikeshare --all`
+    
+    > To clone an existing virtual environment to test new packages use `conda --name bikeshare-clone --clone bikeshare`
 
     ### Activate the virtual environment:
     ```bash
