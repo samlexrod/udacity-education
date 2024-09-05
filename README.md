@@ -96,14 +96,6 @@ To run the project, follow these steps:
     pip install kaggle
     ```
     > Follow kaggle's instructions to download the data and submit.
-
-    ### Install Ydata Profiling
-    > WARNING! To avoid conflicts in your machine caused by the installation of ydata-profile, it is best to work in a cloned environment. `conda create --bikeshare-test --clone bikeshare`
-    ```bash
-    conda install -c conda-forge ydata-profiling
-    ```
-
-
     
 
 5. Run the notebooks in the notebooks/ directory to explore the data, build the model, and evaluate its performance.
