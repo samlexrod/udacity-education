@@ -13,14 +13,18 @@ class DataLoader:
         self.test = None
         self.sample_submission = None
 
+        self.help()
+
+    def help(self):
+        """Help method to provide information about available methods"""
+
         checkpoints = self._list_checkpoints()
 
         print(f"""
         Data Loader initialized with data path: {self.data_path}
-            - Use load_raw() to load raw data
-            - Use get_train_test_data() to get raw train and test data  
+            - Use get_train_test_data() to get loaded train and test data
             - Use save_feature_engineered_data() to save feature engineered data
-            - Use load_feature_engineered() to load feature engineered data
+            - Use load_feature_engineered(checkpoint_name="available_checkpoint") to load feature engineered data
               
             - Use set_as_category() to set columns as category
 
@@ -31,7 +35,7 @@ class DataLoader:
         """List all checkpoints"""
         return [folder.split('=')[1] for folder in os.listdir(self.data_path) if "checkpoint" in folder]
 
-    def load_raw(self):
+    def _load_raw(self):
         """Load raw data"""
         self.train = pd.read_csv(self.data_path + 'train.csv')
         self.test = pd.read_csv(self.data_path + 'test.csv')
@@ -49,9 +53,9 @@ class DataLoader:
     def get_train_test_data(self):
         """Return raw train and test data"""
         if any([self.train is None, self.test is None]):
-            self.load_raw()
-            msg = "load_raw() method called to load raw data automatically. Use load_feature_engineered() to load feature engineered data checkpoint."
-            warnings.warn(msg)
+            print("Loading raw data...")
+            self._load_raw()
+            print("Raw data loaded successfully!")
 
         return self.train, self.test
     
