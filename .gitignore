@@ -170,3 +170,13 @@ cython_debug/
 # ML Files
 *.pkl
 */autogluon*
+
+# Dog breed project specific
+**/*.jpg
+**/*.ipynb_checkpoints
+**/*.pth
+**/*.tar.gz
+**/*.pyc
+**/*.zip*
+
+**/profiler-output/**/*.json
