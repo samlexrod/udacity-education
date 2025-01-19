@@ -6,6 +6,8 @@ import torchvision
 import torchvision.models as models
 import torchvision.transforms as transforms
 
+import datetime
+
 import copy
 import argparse
 import os
@@ -199,8 +201,8 @@ if __name__=='__main__':
     else:
         logger.info("Using GPU for training")
         backend = 'nccl'
-        
-    torch.distributed.init_process_group(backend=backend, init_method="env://")
+
+    torch.distributed.init_process_group(backend=backend, init_method="env://", timeout=datetime.timedelta(seconds=10))
     rank = torch.distributed.get_rank()
     world_size = torch.distributed.get_world_size()
 
