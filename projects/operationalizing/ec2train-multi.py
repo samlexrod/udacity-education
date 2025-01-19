@@ -183,23 +183,28 @@ if __name__=='__main__':
     # Parse arguments
     parser = argparse.ArgumentParser(description='Train a model on the dog dataset')
     parser.add_argument('--sample', action='store_true', help='Use a sample of the dataset for training')
+    parser.add_argument('--cpu', action='store_true', help='Use CPU for training')
     args = parser.parse_args()
     use_sample=args.sample
+    use_cpu=args.cpu
 
     batch_size=2
     learning_rate=1e-4
 
     # Initialize distributed process group
     logger.info("Initializing Distributed Process Group")
-    torch.distributed.init_process_group(backend="nccl", init_method="env://")
+    backend = 'gloo' if use_cpu else 'nccl'
+    torch.distributed.init_process_group(backend=backend, init_method="env://")
     rank = torch.distributed.get_rank()
     world_size = torch.distributed.get_world_size()
 
     # Set up loaders
+    logger.info("Creating Data Loaders")
     train_loader, test_loader, validation_loader=create_data_loaders('dogImages',batch_size, rank, world_size, use_sample=use_sample)
     model=net().to(rank)
 
     # Use DistributedDataParallel to make model distributed
+    logger.info("Distributing Model")
     model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[rank])
 
     criterion = nn.CrossEntropyLoss()
