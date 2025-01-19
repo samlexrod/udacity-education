@@ -193,7 +193,13 @@ if __name__=='__main__':
 
     # Initialize distributed process group
     logger.info("Initializing Distributed Process Group")
-    backend = 'gloo' if use_cpu else 'nccl'
+    if use_cpu:
+        logger.info("Using CPU for training")
+        backend = 'gloo'
+    else:
+        logger.info("Using GPU for training")
+        backend = 'nccl'
+        
     torch.distributed.init_process_group(backend=backend, init_method="env://")
     rank = torch.distributed.get_rank()
     world_size = torch.distributed.get_world_size()
