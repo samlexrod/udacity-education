@@ -139,10 +139,14 @@ def create_data_loaders(data, batch_size, rank, world_size):
 if __name__=='__main__':
     """
     Pre-requisites:
-    1. Setup the dataset in all the nodes
-        1. Create a folder called 'dogImages' in the same directory as this script in all the nodes.
-        2. Download the dog dataset from https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip
-        3. Unzip the dataset in the 'dogImages' folder
+    1. Setup the dataset in all the nodes 
+        1. Clone https://github.com/samlexrod/udacity-education.git
+        2. Change directory to /projects/operationalizing 
+        3. Run `source dogImagesSetup.sh`
+            * Creates a folder called 'dogImages' in the same directory as this script in all the nodes.
+            * Downloads the dog dataset from https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip
+            * Unzips the dataset in the 'dogImages' folder
+            * Removes the zip file
     4. Setup the environment variables for distributed training by adding them to /etc/environment
         * Edit the /etc/environment file on the master node
         ```
