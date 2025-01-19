@@ -202,7 +202,7 @@ if __name__=='__main__':
         logger.info("Using GPU for training")
         backend = 'nccl'
 
-    torch.distributed.init_process_group(backend=backend, init_method="env://", timeout=datetime.timedelta(seconds=10))
+    torch.distributed.init_process_group(backend=backend, init_method="env://", timeout=datetime.timedelta(seconds=60*1))
     rank = torch.distributed.get_rank()
     world_size = torch.distributed.get_world_size()
 
