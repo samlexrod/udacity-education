@@ -106,7 +106,7 @@ def net():
                    nn.Linear(128, 133))
     return model
 
-def create_data_loaders(data, batch_size, rank, world_size):
+def create_data_loaders(data, batch_size, rank, world_size, use_sample, sample_size=1000):
     train_data_path = os.path.join(data, 'train')
     test_data_path = os.path.join(data, 'test')
     validation_data_path=os.path.join(data, 'valid')
@@ -122,18 +122,28 @@ def create_data_loaders(data, batch_size, rank, world_size):
         transforms.ToTensor(),
         ])
 
+    # Load datasets
     train_data = torchvision.datasets.ImageFolder(root=train_data_path, transform=train_transform)
-    train_sampler = torch.utils.data.distributed.DistributedSampler(train_data, num_replicas=world_size, rank=rank)
-    train_data_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, sampler=train_sampler)
-
     test_data = torchvision.datasets.ImageFolder(root=test_data_path, transform=test_transform)
-    test_sampler = torch.utils.data.distributed.DistributedSampler(test_data, num_replicas=world_size, rank=rank)
-    test_data_loader  = torch.utils.data.DataLoader(test_data, batch_size=batch_size, sampler=test_sampler)
-
     validation_data = torchvision.datasets.ImageFolder(root=validation_data_path, transform=test_transform)
+
+    # Apply sampling if sample_size is provided
+    if use_sample:
+        logger.info(f"Using a sample of {sample_size} images per dataset for quick testing.")
+        train_data = torch.utils.data.Subset(train_data, range(min(sample_size, len(train_data))))
+        test_data = torch.utils.data.Subset(test_data, range(min(sample_size, len(test_data))))
+        validation_data = torch.utils.data.Subset(validation_data, range(min(sample_size, len(validation_data))))
+
+    # Create samplers for distributed training
+    train_sampler = torch.utils.data.distributed.DistributedSampler(train_data, num_replicas=world_size, rank=rank)
+    test_sampler = torch.utils.data.distributed.DistributedSampler(test_data, num_replicas=world_size, rank=rank)
     validation_sampler = torch.utils.data.distributed.DistributedSampler(validation_data, num_replicas=world_size, rank=rank)
-    validation_data_loader  = torch.utils.data.DataLoader(validation_data, batch_size=batch_size, sampler=validation_sampler) 
-    
+
+    # Create data loaders
+    train_data_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, sampler=train_sampler)
+    test_data_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, sampler=test_sampler)
+    validation_data_loader = torch.utils.data.DataLoader(validation_data, batch_size=batch_size, sampler=validation_sampler)
+
     return train_data_loader, test_data_loader, validation_data_loader
 
 if __name__=='__main__':
@@ -170,17 +180,23 @@ if __name__=='__main__':
         ```
         * Once the ping is successful, you can proceed to the next step.
     """
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='Train a model on the dog dataset')
+    parser.add_argument('--sample', action='store_true', help='Use a sample of the dataset for training')
+    args = parser.parse_args()
+    use_sample=args.sample
 
     batch_size=2
     learning_rate=1e-4
 
     # Initialize distributed process group
+    logger.info("Initializing Distributed Process Group")
     torch.distributed.init_process_group(backend="nccl", init_method="env://")
     rank = torch.distributed.get_rank()
     world_size = torch.distributed.get_world_size()
 
     # Set up loaders
-    train_loader, test_loader, validation_loader=create_data_loaders('dogImages',batch_size, rank, world_size)
+    train_loader, test_loader, validation_loader=create_data_loaders('dogImages',batch_size, rank, world_size, use_sample=use_sample)
     model=net().to(rank)
 
     # Use DistributedDataParallel to make model distributed
