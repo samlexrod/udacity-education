@@ -209,7 +209,13 @@ if __name__=='__main__':
     # Set up loaders
     logger.info("Creating Data Loaders")
     train_loader, test_loader, validation_loader=create_data_loaders('dogImages',batch_size, rank, world_size, use_sample=use_sample)
-    model=net().to(rank)
+
+    if use_cpu:
+        logger.info("Using CPU for training")
+        model=net().to("cpu")
+    else:
+        logger.info("Using GPU for training")
+        model=net().to(rank)
 
     # Use DistributedDataParallel to make model distributed
     logger.info("Distributing Model")
