@@ -213,13 +213,19 @@ if __name__=='__main__':
     if use_cpu:
         logger.info("Using CPU for training")
         model=net().to("cpu")
+
+        # Use DistributedDataParallel to make model distributed
+        logger.info("Distributing Model on CPU")
+        model = torch.nn.parallel.DistributedDataParallel(model)
     else:
         logger.info("Using GPU for training")
         model=net().to(rank)
 
-    # Use DistributedDataParallel to make model distributed
-    logger.info("Distributing Model")
-    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[rank])
+        # Use DistributedDataParallel to make model distributed
+        logger.info("Distributing Model on GPU")
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[rank])
+
+    
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.module.fc.parameters(), lr=learning_rate)
