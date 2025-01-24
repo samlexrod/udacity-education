@@ -175,6 +175,7 @@ if __name__=='__main__':
         * Repeat the same steps for the slave nodes, ensuring the `RANK` is set to the appropriate value
     5. Ensure all slave nodes can communicate with the master node.
         * Add inbound rule to the security group of the master node to allow traffic from the slave nodes.
+        * Add inbound rule to the security group of the slave nodes to allow traffic from the master node.
         * Use the `All traffic` rule to allow traffic from the slave nodes, for simplicity. Only use necessary rules in production.
         * You will need to ping the master node from the slave nodes to ensure communication is working.
         ```bash
