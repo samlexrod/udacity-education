@@ -68,4 +68,4 @@ Here is the screenshot of the model saved in the EC2 instance:
 
 ## API setup. Use the API gateway to set up an API that allows access to your Lambda function by the public.
 
-> The API Gateway was set up to expose the Lambda function to the public. The API Gateway has a POST method that triggers the Lambda function. You can see the API Gateway call in the train_and_deploy-solution.ipynb notebook. The lambdafunction.py was updated to follow the proxy integration for the response from the Lambda function.
+> The API Gateway was set up to expose the Lambda function to the public. The API Gateway has a POST method that triggers the Lambda function. You can see the API Gateway call in the train_and_deploy.ipynb notebook. The lambdafunction.py was updated to follow the proxy integration for the response from the Lambda function.
