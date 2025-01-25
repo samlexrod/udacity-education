@@ -10,16 +10,29 @@ logger.setLevel(logging.DEBUG)
 print('Loading Lambda function')
 
 runtime=boto3.Session().client('sagemaker-runtime')
-endpoint_Name='BradTestEndpoint'
+endpoint_Name='dog-breed-classifier'
 
 def lambda_handler(event, context):
+    """
+    Test the lambda function with the following event:
+    {
+    "body": {
+        "url": "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/20113314/Carolina-Dog-standing-outdoors.jpg"
+    }
+    }
+    """
 
-    #x=event['content']
-    #aa=x.encode('ascii')
-    #bs=base64.b64decode(aa)
     print('Context:::',context)
     print('EventType::',type(event))
-    bs=event
+    print("Event", event)
+    print("Body", event.get("body"))
+    print("Body Type", type(event.get("body")))
+    bs=event.get("body")
+
+    if isinstance(bs, str):
+        print("-> Converting string body to json.")
+        bs = json.loads(bs)
+
     runtime=boto3.Session().client('sagemaker-runtime')
     
     response=runtime.invoke_endpoint(EndpointName=endpoint_Name,
@@ -33,10 +46,6 @@ def lambda_handler(event, context):
     
     return {
         'statusCode': 200,
-        'headers' : { 'Content-Type' : 'text/plain', 'Access-Control-Allow-Origin' : '*' },
-        'type-result':str(type(result)),
-        'COntent-Type-In':str(context),
+        'headers' : { 'Content-Type' : 'application/json', 'Access-Control-Allow-Origin' : '*' },
         'body' : json.dumps(sss)
-        #'updated_result':str(updated_result)
-
         }
