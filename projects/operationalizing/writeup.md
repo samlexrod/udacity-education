@@ -62,5 +62,10 @@ Here is the screenshot of the model saved in the EC2 instance:
     Request ID: 07f7761d-3fb2-41f0-a790-9debc31f308b
 ```
 
+## Data sharding on EC2. Adjust your EC2 training code so that it accomplishes multi-instance training, including data sharding.
 
+> The file `ec2train-multi.py` contains the code for multi-instance training with data sharding. The code reads the data from the S3 bucket and shards it into multiple parts. Each instance reads a different shard of the data and trains on it. It uses torch.distributed to coordinate the training across instances. The code also saves the model to the S3 bucket after training is complete. It is training on CPU using gloo instead of nccl because the data is small and GPU clusters are expensive.
 
+## API setup. Use the API gateway to set up an API that allows access to your Lambda function by the public.
+
+> The API Gateway was set up to expose the Lambda function to the public. The API Gateway has a POST method that triggers the Lambda function. You can see the API Gateway call in the train_and_deploy-solution.ipynb notebook. The lambdafunction.py was updated to follow the proxy integration for the response from the Lambda function.
